@@ -14,7 +14,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 15.x]
+        # node-version: [10.x, 12.x, 14.x, 15.x]
+        node-version: [12.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -23,11 +24,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Installing node modules
-    - run: npm i
-    - name: Build
-    - run: npm run build
-    - name: Installing surge
-    - run: npm install --global surge
-    - name: Deploying using surge
-    - run: surge ./build quiz-hkbenvision.surge.sh --token ${{ secrets.QUIZ_PROJECT_TOKEN }}
+
+    - name: Installing Node Modules
+      run: npm install
+
+    - name: Create project build
+      run: npm run build
+
+    - name: Installing Surge
+      run: npm install --global surge
+
+    - name: Delopying using surge
+      run: surge ./build expensetracker-hkbenvision.surge.sh --token ${{ secrets.QUIZ_PROJECT_TOKEN }}
