@@ -1,0 +1,2 @@
+yarn create react-app quiz --template typescript
+yarn add styled-components @types/styled-components
