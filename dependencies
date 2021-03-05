@@ -1,2 +1,13 @@
 yarn create react-app quiz --template typescript
 yarn add styled-components @types/styled-components
+yarn add history react-router-dom@next
+yarn add axios
+yarn add node-sass
+unsplash
+google fonts
+
+Link for getting Api
+https://opentdb.com/api_config.php
+
+API: 
+https://opentdb.com/api.php?amount=10&type=multiple
