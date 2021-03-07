@@ -7,10 +7,10 @@ const QuestionCard = (props: any) => {
     useEffect(() => {
         props.startQuiz(true)
     
-    }, [])
-    useEffect(() => {
         props.calculateTimer()
-    }, [props.calculateTimer()])
+    }, [])
+    // useEffect(() => {
+    // }, [props.calculateTimer()])
 
     
     return (
