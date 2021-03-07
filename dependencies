@@ -3,8 +3,11 @@ yarn add styled-components @types/styled-components
 yarn add history react-router-dom@next
 yarn add axios
 yarn add node-sass
+yarn add moment
+yarn add @material-ui/core
 unsplash
 google fonts
+
 
 Link for getting Api
 https://opentdb.com/api_config.php

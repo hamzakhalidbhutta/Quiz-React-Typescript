@@ -1,20 +1,118 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { getQuizApiResponse, Amount, Difficulty, Type, Question } from './api'
-// import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import './scss/index.scss'
+import { getQuizApiResponse, Amount, Difficulty, Type, RefinedQuestion } from './api'
+import QuestionCard from "./components/QuestionCard";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 
 const Main = () => {
+
+    const [ready, setReady] = useState(false);
+
+    const [questions, setQuestion] = useState<RefinedQuestion[]>()
+
+    const [questionNumber, setQuestionNumber] = useState(0)
+
+    const [scores, setScores] = useState(0)
+
+    const [scoresWithAnswers, setScoresWithAnswers] = useState<any[]>([])
+
+    let answerArray: any[] = [];
+
+    const [showResult, setShowResult] = useState(false)
+
+    const [seconds, setSeconds] = useState(0);
+
     useEffect(() => {
         async function fetchResponse() {
-            const mcqs : Question = await getQuizApiResponse(Amount.TEN,Difficulty.EASY,Type.MULTIPLE)
-            console.log(mcqs)
+            setQuestion(await getQuizApiResponse(Amount.TEN, Difficulty.EASY, Type.MULTIPLE))
         }
         fetchResponse()
+       
     }, [])
-    return (<App />)
+
+    function calculateTimer(){
+         if (seconds > 0) {
+            setTimeout(() => setSeconds(seconds - 1), 1000);
+        }
+    }
+
+    function resultMaintain() {
+        if (questions) {
+            questions.map((v: any, i: number) => {
+                (answerArray.push({ quest: i, answer: "" }))
+            }
+            )
+            setScoresWithAnswers(answerArray)
+
+        }
+    }
+    function quizResult() {
+        if (questions) {
+            let s = 0;
+            questions.map((v: any, i: number) => {
+                if (v.correct_answer === scoresWithAnswers[i].answers) {
+                    s = s + 1
+                    setScores(s)
+                }
+            })
+        }
+    }
+    function currentQuestion(isNext: boolean) {
+        if (questions) {
+            if (isNext) {
+                setQuestionNumber((questionNumber >= 0 && questionNumber <= questions.length) ? questionNumber + 1 : questions.length)
+            } else {
+                setQuestionNumber((questionNumber > 0 && questionNumber <= questions.length) ? questionNumber - 1 : 0)
+            }
+        }
+    }
+    function storeAnswers(answer: string) {
+        answerArray = [...scoresWithAnswers]
+        answerArray[questionNumber].answers = answer
+        setScoresWithAnswers(answerArray)
+
+    }
+    function startQuiz(opt: boolean) {
+        if (opt) {
+            resultMaintain();
+            setReady(opt)
+            setSeconds(600)
+
+        }
+        else {
+            quizResult()
+            setReady(opt)
+            setShowResult(true)
+             setSeconds(0)
+        }
+    }
+
+    return (
+        <>
+            {     (questions) ?
+
+                <Router>
+                    <App startQuiz={startQuiz} question={questions} questionNumber={questionNumber} calculateTimer={calculateTimer} timer={seconds} scores={scores} showResult={showResult} storeAnswers={storeAnswers} ready={ready} >
+                        <Routes>
+                            {
+                                ready ?
+                                    <Route path="/" element={<QuestionCard startQuiz={startQuiz}  calculateTimer={calculateTimer} timer={seconds} question={questions} questionNumber={questionNumber} currentQuestion={currentQuestion} storeAnswers={storeAnswers} ready={ready} />} />
+                                    : null
+                            }
+                        </Routes>
+                    </App>
+                </Router>
+                :
+                <h1>Loading...</h1>
+            }
+        </>
+    )
 }
+
 
 export default Main
 
@@ -23,3 +121,4 @@ export default Main
 if (document.getElementById("root")) {
     ReactDOM.render(<Main />, document.getElementById("root"));
 }
+
