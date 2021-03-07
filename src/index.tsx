@@ -43,7 +43,7 @@ const Main = () => {
     function resultMaintain() {
         if (questions) {
             questions.map((v: any, i: number) => {
-                (answerArray.push({ quest: i, answer: "" }))
+               return (answerArray.push({ quest: i, answer: "" }))
             }
             )
             setScoresWithAnswers(answerArray)
@@ -56,8 +56,13 @@ const Main = () => {
             questions.map((v: any, i: number) => {
                 if (v.correct_answer === scoresWithAnswers[i].answers) {
                     s = s + 1
-                    setScores(s)
+                   return(setScores(s))
+                    
+                }else{
+                    return null;
                 }
+
+               
             })
         }
     }
