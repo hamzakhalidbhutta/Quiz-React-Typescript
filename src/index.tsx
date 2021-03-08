@@ -118,7 +118,7 @@ const Main = () => {
                     </App>
                 </Router>
                 :
-                <h1>Loading...</h1>
+                <h1>Hey!! There welcome onboard for your quiz and good luck.</h1>
             }
         </>
     )
