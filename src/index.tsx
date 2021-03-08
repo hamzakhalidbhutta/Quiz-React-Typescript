@@ -24,26 +24,32 @@ const Main = () => {
 
     const [showResult, setShowResult] = useState(false)
 
-    const [seconds, setSeconds] = useState(0);
+
 
     useEffect(() => {
         async function fetchResponse() {
             setQuestion(await getQuizApiResponse(Amount.TEN, Difficulty.EASY, Type.MULTIPLE))
         }
         fetchResponse()
-       
     }, [])
 
-    function calculateTimer(){
-         if (seconds > 0) {
-            setTimeout(() => setSeconds(seconds - 1), 1000);
-        }
+    const [seconds, setSeconds] = useState(0);
+
+    const interval = () => {
+        setTimeout(() => {
+            if (seconds > 0) {
+                setSeconds(seconds - 1)
+            }
+        }, 1000);
     }
+
+
+
 
     function resultMaintain() {
         if (questions) {
             questions.map((v: any, i: number) => {
-               return (answerArray.push({ quest: i, answer: "" }))
+                return (answerArray.push({ quest: i, answer: "" }))
             }
             )
             setScoresWithAnswers(answerArray)
@@ -56,13 +62,13 @@ const Main = () => {
             questions.map((v: any, i: number) => {
                 if (v.correct_answer === scoresWithAnswers[i].answers) {
                     s = s + 1
-                   return(setScores(s))
-                    
-                }else{
+                    return (setScores(s))
+
+                } else {
                     return null;
                 }
 
-               
+
             })
         }
     }
@@ -86,13 +92,13 @@ const Main = () => {
             resultMaintain();
             setReady(opt)
             setSeconds(600)
-
         }
         else {
             quizResult()
             setReady(opt)
             setShowResult(true)
-             setSeconds(0)
+            setSeconds(0)
+
         }
     }
 
@@ -101,11 +107,11 @@ const Main = () => {
             {     (questions) ?
 
                 <Router>
-                    <App startQuiz={startQuiz} question={questions} questionNumber={questionNumber} calculateTimer={calculateTimer} timer={seconds} scores={scores} showResult={showResult} storeAnswers={storeAnswers} ready={ready} >
+                    <App startQuiz={startQuiz} question={questions} questionNumber={questionNumber} scores={scores} showResult={showResult} storeAnswers={storeAnswers} ready={ready} >
                         <Routes>
                             {
                                 ready ?
-                                    <Route path="/" element={<QuestionCard startQuiz={startQuiz}  calculateTime={calculateTimer} timer={seconds} question={questions} questionNumber={questionNumber} currentQuestion={currentQuestion} storeAnswers={storeAnswers} ready={ready} />} />
+                                    <Route path="/" element={<QuestionCard interval={interval} seconds={seconds} startQuiz={startQuiz} question={questions} questionNumber={questionNumber} currentQuestion={currentQuestion} storeAnswers={storeAnswers} ready={ready} />} />
                                     : null
                             }
                         </Routes>
