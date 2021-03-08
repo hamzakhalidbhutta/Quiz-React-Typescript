@@ -105,7 +105,7 @@ const Main = () => {
                         <Routes>
                             {
                                 ready ?
-                                    <Route path="/" element={<QuestionCard startQuiz={startQuiz}  calculateTimer={calculateTimer} timer={seconds} question={questions} questionNumber={questionNumber} currentQuestion={currentQuestion} storeAnswers={storeAnswers} ready={ready} />} />
+                                    <Route path="/" element={<QuestionCard startQuiz={startQuiz}  calculateTime={calculateTimer} timer={seconds} question={questions} questionNumber={questionNumber} currentQuestion={currentQuestion} storeAnswers={storeAnswers} ready={ready} />} />
                                     : null
                             }
                         </Routes>

@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { 
+    // useEffect 
+} from 'react'
 import moment from 'moment';
 import { Card, Grid, CardContent, Button, Typography } from '@material-ui/core';
 
 interface IProps {
     startQuiz: any;
-    calculateTimer: any;
+    calculateTime: any;
     timer: any;
     question: any;
     questionNumber: any;
@@ -13,14 +15,17 @@ interface IProps {
     ready: any;
 }
 
-const QuestionCard = ({ startQuiz, calculateTimer, timer, question, questionNumber, currentQuestion, storeAnswers, ready, }: IProps) => {
+const QuestionCard = ({ startQuiz, calculateTime, timer, question, questionNumber, currentQuestion, storeAnswers, ready, }: IProps) => {
 
-    useEffect(() => {
+    // useEffect(() => {
 
-            startQuiz(true)
-            calculateTimer()
-        
-    },[])
+    //     const runThis = ()=> {
+    //         startQuiz(true)
+    
+            // calculateTime()
+    //     }
+    //     runThis()
+    // },[])
 
  
     return (
